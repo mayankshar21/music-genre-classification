@@ -1,0 +1,1052 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{assignment2\_COMP90049}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{comp90049-assignment-2}{%
+\section{COMP90049 Assignment 2}\label{comp90049-assignment-2}}
+
+    \hypertarget{libaries}{%
+\subsubsection{Libaries}\label{libaries}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Libraries imported and used for assignment}
+
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{warnings}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{dummy} \PY{k+kn}{import} \PY{n}{DummyClassifier}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{neural\PYZus{}network} \PY{k+kn}{import} \PY{n}{MLPClassifier}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing} \PY{k+kn}{import} \PY{n}{MinMaxScaler}\PY{p}{,} \PY{n}{LabelEncoder}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{GridSearchCV}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{feature\PYZus{}extraction}\PY{n+nn}{.}\PY{n+nn}{text} \PY{k+kn}{import} \PY{n}{TfidfVectorizer}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{accuracy\PYZus{}score}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{feature\PYZus{}selection} \PY{k+kn}{import} \PY{n}{RFECV}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{tree} \PY{k+kn}{import} \PY{n}{DecisionTreeClassifier}
+\PY{k+kn}{from} \PY{n+nn}{sklearn} \PY{k+kn}{import} \PY{n}{set\PYZus{}config} 
+\PY{n}{set\PYZus{}config}\PY{p}{(}\PY{n}{print\PYZus{}changed\PYZus{}only}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{warnings}\PY{o}{.}\PY{n}{filterwarnings}\PY{p}{(}\PY{n}{action}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{helper-functions}{%
+\subsubsection{Helper functions}\label{helper-functions}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Helper functions used for the assignments}
+
+\PY{c+c1}{\PYZsh{} reads the csv files and imports the data ina  dataframe}
+\PY{c+c1}{\PYZsh{} removes track id from labels before processing}
+\PY{k}{def} \PY{n+nf}{read\PYZus{}files}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{train\PYZus{}features} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{train\PYZus{}features.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{train\PYZus{}labels} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{train\PYZus{}labels.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{valid\PYZus{}features} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{valid\PYZus{}features.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{valid\PYZus{}labels} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{valid\PYZus{}labels.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{test\PYZus{}features} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{test\PYZus{}features.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{n}{converted\PYZus{}train\PYZus{}labels}\PY{p}{,} \PY{n}{converted\PYZus{}valid\PYZus{}labels}\PY{p}{,} \PY{n}{label\PYZus{}encoder} \PY{o}{=} \PY{n}{convert\PYZus{}labels\PYZus{}numeric}\PY{p}{(}\PY{n}{train\PYZus{}labels}\PY{p}{,} \PY{n}{valid\PYZus{}labels}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{train\PYZus{}features}\PY{p}{,} \PY{n}{converted\PYZus{}train\PYZus{}labels}\PY{p}{,} \PY{n}{valid\PYZus{}features}\PY{p}{,} \PY{n}{converted\PYZus{}valid\PYZus{}labels}\PY{p}{,} \PY{n}{test\PYZus{}features}\PY{p}{,} \PY{n}{label\PYZus{}encoder}
+
+\PY{c+c1}{\PYZsh{} splits features for a given column range}
+\PY{k}{def} \PY{n+nf}{split\PYZus{}features}\PY{p}{(}\PY{n}{features}\PY{p}{,} \PY{n}{column1}\PY{p}{,} \PY{n}{column2}\PY{p}{)}\PY{p}{:}
+    \PY{n}{new\PYZus{}feature\PYZus{}set} \PY{o}{=} \PY{n}{features}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{column1}\PY{p}{:}\PY{n}{column2}\PY{p}{]}
+    \PY{k}{return} \PY{n}{new\PYZus{}feature\PYZus{}set}
+
+\PY{c+c1}{\PYZsh{} converts a textual feature column into tfidf vector}
+\PY{k}{def} \PY{n+nf}{text\PYZus{}features\PYZus{}tfidf}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{n}{valid\PYZus{}features}\PY{p}{,}\PY{n}{test\PYZus{}features}\PY{p}{,}\PY{n}{text\PYZus{}column}\PY{p}{)}\PY{p}{:}
+    \PY{n}{train\PYZus{}column} \PY{o}{=} \PY{n}{train\PYZus{}features}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{text\PYZus{}column}\PY{p}{]}
+    \PY{n}{valid\PYZus{}column} \PY{o}{=} \PY{n}{valid\PYZus{}features}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{text\PYZus{}column}\PY{p}{]}
+    \PY{n}{test\PYZus{}column} \PY{o}{=} \PY{n}{test\PYZus{}features}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{text\PYZus{}column}\PY{p}{]}
+    
+    \PY{n}{train\PYZus{}library} \PY{o}{=} \PY{n}{train\PYZus{}column}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+    \PY{n}{valid\PYZus{}library} \PY{o}{=} \PY{n}{valid\PYZus{}column}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+    \PY{n}{test\PYZus{}library} \PY{o}{=} \PY{n}{test\PYZus{}column}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{text\PYZus{}vector} \PY{o}{=} \PY{n}{TfidfVectorizer}\PY{p}{(}\PY{p}{)}
+    \PY{n}{text\PYZus{}vector}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{train\PYZus{}library}\PY{p}{)}
+    
+    \PY{n}{train\PYZus{}values} \PY{o}{=} \PY{n}{text\PYZus{}vector}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{train\PYZus{}library}\PY{p}{)}
+    \PY{n}{valid\PYZus{}values} \PY{o}{=} \PY{n}{text\PYZus{}vector}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{valid\PYZus{}library}\PY{p}{)}
+    \PY{n}{test\PYZus{}values} \PY{o}{=} \PY{n}{text\PYZus{}vector}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{test\PYZus{}library}\PY{p}{)}
+    
+    \PY{n}{tfidf\PYZus{}train\PYZus{}features} \PY{o}{=} \PY{n}{train\PYZus{}values}\PY{o}{.}\PY{n}{toarray}\PY{p}{(}\PY{p}{)}
+    \PY{n}{tfidf\PYZus{}valid\PYZus{}features} \PY{o}{=} \PY{n}{valid\PYZus{}values}\PY{o}{.}\PY{n}{toarray}\PY{p}{(}\PY{p}{)}
+    \PY{n}{tfidf\PYZus{}test\PYZus{}features} \PY{o}{=} \PY{n}{test\PYZus{}values}\PY{o}{.}\PY{n}{toarray}\PY{p}{(}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{tfidf\PYZus{}train\PYZus{}features}\PY{p}{,} \PY{n}{tfidf\PYZus{}valid\PYZus{}features}\PY{p}{,} \PY{n}{tfidf\PYZus{}test\PYZus{}features}
+
+\PY{c+c1}{\PYZsh{} converts string labels into numveric values}
+\PY{k}{def} \PY{n+nf}{convert\PYZus{}labels\PYZus{}numeric}\PY{p}{(}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{valid\PYZus{}labels}\PY{p}{)}\PY{p}{:}
+    \PY{n}{label} \PY{o}{=} \PY{n}{LabelEncoder}\PY{p}{(}\PY{p}{)}
+    \PY{n}{train\PYZus{}genre} \PY{o}{=} \PY{n}{train\PYZus{}labels}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{genre}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+    \PY{n}{valid\PYZus{}genre} \PY{o}{=} \PY{n}{valid\PYZus{}labels}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{genre}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}
+    \PY{n}{label}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{train\PYZus{}genre}\PY{p}{)}
+    \PY{n}{converted\PYZus{}train\PYZus{}labels} \PY{o}{=} \PY{n}{label}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{train\PYZus{}genre}\PY{p}{)}
+    \PY{n}{converted\PYZus{}valid\PYZus{}labels} \PY{o}{=} \PY{n}{label}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{valid\PYZus{}genre}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{converted\PYZus{}train\PYZus{}labels}\PY{p}{,} \PY{n}{converted\PYZus{}valid\PYZus{}labels}\PY{p}{,} \PY{n}{label}
+
+\PY{c+c1}{\PYZsh{} scales values between 0 and 1}
+\PY{k}{def} \PY{n+nf}{min\PYZus{}max\PYZus{}scaler}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{n}{valid\PYZus{}features}\PY{p}{,}\PY{n}{test\PYZus{}features}\PY{p}{)}\PY{p}{:}
+    \PY{n}{min\PYZus{}max} \PY{o}{=} \PY{n}{MinMaxScaler}\PY{p}{(}\PY{p}{)}
+    \PY{n}{min\PYZus{}max}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{)}
+    \PY{n}{scaled\PYZus{}train\PYZus{}values} \PY{o}{=} \PY{n}{min\PYZus{}max}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{)}
+    \PY{n}{scaled\PYZus{}valid\PYZus{}values} \PY{o}{=} \PY{n}{min\PYZus{}max}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{valid\PYZus{}features}\PY{p}{)}
+    \PY{n}{scaled\PYZus{}test\PYZus{}values} \PY{o}{=} \PY{n}{min\PYZus{}max}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{test\PYZus{}features}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{scaled\PYZus{}train\PYZus{}values}\PY{p}{,} \PY{n}{scaled\PYZus{}valid\PYZus{}values}\PY{p}{,} \PY{n}{scaled\PYZus{}test\PYZus{}values}
+
+\PY{c+c1}{\PYZsh{} trains a classifier for a given train feature set and train labels}
+\PY{k}{def} \PY{n+nf}{train}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{classifier}\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{trained\PYZus{}classifier} \PY{o}{=} \PY{n}{classifier}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{trained\PYZus{}classifier}
+
+\PY{c+c1}{\PYZsh{} predicts values for a classifier for a given feature set}
+\PY{k}{def} \PY{n+nf}{predict}\PY{p}{(}\PY{n}{valid\PYZus{}features}\PY{p}{,}\PY{n}{trained\PYZus{}classifier}\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{predicted\PYZus{}values} \PY{o}{=} \PY{n}{trained\PYZus{}classifier}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{valid\PYZus{}features}\PY{p}{)}
+        
+    \PY{k}{return} \PY{n}{predicted\PYZus{}values}
+
+\PY{c+c1}{\PYZsh{} evaluates accuracy score for a set of predicted labels}
+\PY{k}{def} \PY{n+nf}{evaluate}\PY{p}{(}\PY{n}{actual\PYZus{}values}\PY{p}{,}\PY{n}{predicted\PYZus{}values}\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{accuracy} \PY{o}{=} \PY{n}{accuracy\PYZus{}score}\PY{p}{(}\PY{n}{actual\PYZus{}values}\PY{p}{,}\PY{n}{predicted\PYZus{}values}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{accuracy}
+
+\PY{c+c1}{\PYZsh{} plots a bar graph showing the count for each type of genre }
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}frequecy\PYZus{}labels}\PY{p}{(}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{label\PYZus{}encoder}\PY{p}{)}\PY{p}{:}
+    \PY{n}{genre}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Classic Pop and Rock}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Dance and Electronica}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Folk}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Jazz and Blues}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Metal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pop}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Punk}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Soul and Reggae}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{original\PYZus{}values} \PY{o}{=} \PY{n}{label\PYZus{}encoder}\PY{o}{.}\PY{n}{inverse\PYZus{}transform}\PY{p}{(}\PY{n}{train\PYZus{}labels}\PY{p}{)}
+    \PY{n}{original\PYZus{}bar}\PY{p}{,}\PY{n}{original\PYZus{}count} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{n}{original\PYZus{}values}\PY{p}{,}\PY{n}{return\PYZus{}counts}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    
+    \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{original\PYZus{}bar}\PY{p}{,}\PY{n}{original\PYZus{}count}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{original\PYZus{}bar}\PY{p}{,}\PY{n}{genre}\PY{p}{,}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Genres}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Number of values}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Bar graph of Number of values for each Genre in training dataset}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} plots a multi bar graph showing the counts for each type of genre for different classifiers}
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}predicted\PYZus{}actual\PYZus{}labels}\PY{p}{(}\PY{n}{predicted\PYZus{}DT\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}MLP\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}DC\PYZus{}labels}\PY{p}{,}\PY{n}{valid\PYZus{}labels}\PY{p}{)}\PY{p}{:}
+    \PY{n}{weight} \PY{o}{=} \PY{l+m+mf}{0.2}
+    \PY{n}{labels} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Decision Tree}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Multilayer Perceptron}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Zero\PYZus{}R}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{valid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{genre} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Classic Pop and Rock}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Dance and Electronica}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Folk}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Jazz and Blues}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Metal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pop}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Punk}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Soul and Reggae}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{n}{DT\PYZus{}bar}\PY{p}{,}\PY{n}{DT\PYZus{}count} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{n}{predicted\PYZus{}DT\PYZus{}labels}\PY{p}{,}\PY{n}{return\PYZus{}counts}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{MLP\PYZus{}values}\PY{p}{,}\PY{n}{MLP\PYZus{}count} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{n}{predicted\PYZus{}MLP\PYZus{}labels}\PY{p}{,}\PY{n}{return\PYZus{}counts}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{DC\PYZus{}values}\PY{p}{,}\PY{n}{DC\PYZus{}count} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{n}{predicted\PYZus{}DC\PYZus{}labels}\PY{p}{,}\PY{n}{return\PYZus{}counts}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{valid\PYZus{}values}\PY{p}{,}\PY{n}{valid\PYZus{}count} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{n}{valid\PYZus{}labels}\PY{p}{,}\PY{n}{return\PYZus{}counts}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    
+    \PY{n}{MLP\PYZus{}bar} \PY{o}{=} \PY{p}{[}\PY{n}{values} \PY{o}{+} \PY{n}{weight} \PY{k}{for} \PY{n}{values} \PY{o+ow}{in} \PY{n}{MLP\PYZus{}values}\PY{p}{]}
+    \PY{n}{DC\PYZus{}bar} \PY{o}{=} \PY{p}{[}\PY{n}{values} \PY{o}{+} \PY{n}{weight} \PY{k}{for} \PY{n}{values} \PY{o+ow}{in} \PY{n}{MLP\PYZus{}bar}\PY{p}{]}
+    \PY{n}{valid\PYZus{}bar} \PY{o}{=} \PY{p}{[}\PY{n}{values} \PY{o}{+} \PY{n}{weight} \PY{k}{for} \PY{n}{values} \PY{o+ow}{in} \PY{n}{DC\PYZus{}bar}\PY{p}{]}
+    
+    \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{DT\PYZus{}bar}\PY{p}{,} \PY{n}{DT\PYZus{}count}\PY{p}{,}\PY{n}{weight}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{n}{labels}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{MLP\PYZus{}bar}\PY{p}{,} \PY{n}{MLP\PYZus{}count}\PY{p}{,}\PY{n}{weight}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{n}{labels}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{DC\PYZus{}bar}\PY{p}{,}\PY{n}{DC\PYZus{}count}\PY{p}{,}\PY{n}{weight}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{n}{labels}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{valid\PYZus{}bar}\PY{p}{,}\PY{n}{valid\PYZus{}count}\PY{p}{,}\PY{n}{weight}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{n}{labels}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{DT\PYZus{}bar} \PY{o}{+} \PY{l+m+mf}{0.3}\PY{p}{,}\PY{n}{genre}\PY{p}{,}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Genres}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Number of values}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Bar graph of Number of values for each Genre}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+    
+\PY{c+c1}{\PYZsh{} plots a dataframe for the accuracy score for each type of classifier}
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}predicted\PYZus{}accuracy}\PY{p}{(}\PY{n}{predicted\PYZus{}DT\PYZus{}accuracy}\PY{p}{,}\PY{n}{predicted\PYZus{}MLP\PYZus{}accuracy}\PY{p}{,}\PY{n}{predicted\PYZus{}DC\PYZus{}accuracy}\PY{p}{)}\PY{p}{:}
+    \PY{n}{y\PYZus{}values} \PY{o}{=} \PY{p}{[}\PY{n}{predicted\PYZus{}DT\PYZus{}accuracy}\PY{p}{,}\PY{n}{predicted\PYZus{}MLP\PYZus{}accuracy}\PY{p}{,}\PY{n}{predicted\PYZus{}DC\PYZus{}accuracy}\PY{p}{]}
+    \PY{n}{x\PYZus{}values} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DecisionTree}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MultilayerPerceptron}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Zero\PYZus{}R}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    
+    \PY{n}{values} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{classifier}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{x\PYZus{}values}\PY{p}{,} 
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{y\PYZus{}values}
+    \PY{p}{\PYZcb{}}
+    \PY{n}{table} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{values}\PY{p}{)}
+    \PY{k}{return} \PY{n}{table}
+
+\PY{c+c1}{\PYZsh{} initialises the decision tree classifier with hyperparameters for tuning}
+\PY{k}{def} \PY{n+nf}{decision\PYZus{}tree\PYZus{}classifier}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{DT\PYZus{}parameters} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{criterion}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gini}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{entropy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+    \PY{p}{\PYZcb{}}
+    
+    \PY{n}{DT} \PY{o}{=} \PY{n}{DecisionTreeClassifier}\PY{p}{(}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{DT}\PY{p}{,} \PY{n}{DT\PYZus{}parameters}
+
+\PY{c+c1}{\PYZsh{} initialises the multilayer perceptron with hyperparameters for tuning}
+\PY{k}{def} \PY{n+nf}{multi\PYZus{}layer\PYZus{}perceptron\PYZus{}classifier}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{MLP\PYZus{}parameters} \PY{o}{=} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{activation}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{logistic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tanh}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{solver}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sgd}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lbfgs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{max\PYZus{}iter}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{p}{[}\PY{l+m+mi}{2000}\PY{p}{]}
+    \PY{p}{\PYZcb{}}
+    
+    \PY{n}{MLP} \PY{o}{=} \PY{n}{MLPClassifier}\PY{p}{(}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{MLP}\PY{p}{,} \PY{n}{MLP\PYZus{}parameters}
+
+\PY{c+c1}{\PYZsh{} initialises the dummy classifier}
+\PY{k}{def} \PY{n+nf}{dummy\PYZus{}classifier}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{DC\PYZus{}parameters} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    
+    \PY{n}{DC} \PY{o}{=} \PY{n}{DummyClassifier}\PY{p}{(}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{DC}
+
+\PY{c+c1}{\PYZsh{} selects features recursively using the RFECV function based on a tuned classifier}
+\PY{k}{def} \PY{n+nf}{select\PYZus{}features}\PY{p}{(}\PY{n}{classifier}\PY{p}{,}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{n}{valid\PYZus{}features}\PY{p}{,}\PY{n}{test\PYZus{}features}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{selection} \PY{o}{=} \PY{n}{RFECV}\PY{p}{(}\PY{n}{classifier}\PY{p}{,}\PY{n}{step}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    
+    \PY{n}{selection}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{)}
+    
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of features selected: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{selection}\PY{o}{.}\PY{n}{n\PYZus{}features\PYZus{}}\PY{p}{)}\PY{p}{)}
+    
+    \PY{n}{x\PYZus{}values} \PY{o}{=} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{n+nb}{len}\PY{p}{(}\PY{n}{selection}\PY{o}{.}\PY{n}{grid\PYZus{}scores\PYZus{}}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}values}\PY{p}{,}\PY{n}{selection}\PY{o}{.}\PY{n}{grid\PYZus{}scores\PYZus{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Number of features}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Accuracy score}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Graph of acccuracy score vs Number of features}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{best\PYZus{}train\PYZus{}features} \PY{o}{=} \PY{n}{selection}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{)}
+    \PY{n}{best\PYZus{}valid\PYZus{}features} \PY{o}{=} \PY{n}{selection}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{valid\PYZus{}features}\PY{p}{)}
+    \PY{n}{best\PYZus{}test\PYZus{}features} \PY{o}{=} \PY{n}{selection}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{test\PYZus{}features}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{best\PYZus{}train\PYZus{}features}\PY{p}{,} \PY{n}{best\PYZus{}valid\PYZus{}features}\PY{p}{,} \PY{n}{best\PYZus{}test\PYZus{}features}
+
+\PY{c+c1}{\PYZsh{} tunes a classifier based on a given set of hyper parameters}
+\PY{k}{def} \PY{n+nf}{train\PYZus{}GSCV\PYZus{}classifier}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{classifier}\PY{p}{,}\PY{n}{parameter}\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{gscv} \PY{o}{=} \PY{n}{GridSearchCV}\PY{p}{(}\PY{n}{classifier}\PY{p}{,}\PY{n}{parameter}\PY{p}{,}\PY{n}{scoring}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{cv}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,}\PY{n}{n\PYZus{}jobs}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{verbose}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+    
+    \PY{n}{gscv}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{)}
+    
+    \PY{n}{best\PYZus{}classifier} \PY{o}{=} \PY{n}{gscv}\PY{o}{.}\PY{n}{best\PYZus{}estimator\PYZus{}}
+    
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Best classifier selected: }\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{best\PYZus{}classifier}\PY{p}{)}\PY{p}{)}
+    
+    \PY{k}{return} \PY{n}{best\PYZus{}classifier}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{block-1}{%
+\subsubsection{Block 1}\label{block-1}}
+
+Used for initialising the classifiers, reading files from csv and
+removing track id from class labels
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} initialises the classifiers}
+\PY{n}{DT}\PY{p}{,} \PY{n}{DT\PYZus{}parameters} \PY{o}{=} \PY{n}{decision\PYZus{}tree\PYZus{}classifier}\PY{p}{(}\PY{p}{)}
+\PY{n}{MLP}\PY{p}{,} \PY{n}{MLP\PYZus{}parameters} \PY{o}{=} \PY{n}{multi\PYZus{}layer\PYZus{}perceptron\PYZus{}classifier}\PY{p}{(}\PY{p}{)}
+\PY{n}{DC} \PY{o}{=} \PY{n}{dummy\PYZus{}classifier}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} reads and preprocesses the csv content}
+\PY{n}{train\PYZus{}features}\PY{p}{,} \PY{n}{train\PYZus{}labels}\PY{p}{,} \PY{n}{valid\PYZus{}features}\PY{p}{,} \PY{n}{valid\PYZus{}labels}\PY{p}{,} \PY{n}{test\PYZus{}features}\PY{p}{,} \PY{n}{label\PYZus{}encoder} \PY{o}{=} \PY{n}{read\PYZus{}files}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{block-2}{%
+\subsubsection{Block 2}\label{block-2}}
+
+Used for spliting audio vectors from the training, validation and
+testing dataset. Scales the values between 0 and 1. Selects the best
+number of features for audio feature set. Plots a graph and prints the
+vector dimensions.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} audio feature}
+
+\PY{c+c1}{\PYZsh{} splits audio vectors from the dataframes}
+\PY{n}{audio\PYZus{}features} \PY{o}{=} \PY{n}{split\PYZus{}features}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vect\PYZus{}1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vect\PYZus{}148}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{valid\PYZus{}audio\PYZus{}features} \PY{o}{=} \PY{n}{split\PYZus{}features}\PY{p}{(}\PY{n}{valid\PYZus{}features}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vect\PYZus{}1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vect\PYZus{}148}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{test\PYZus{}audio\PYZus{}features} \PY{o}{=} \PY{n}{split\PYZus{}features}\PY{p}{(}\PY{n}{test\PYZus{}features}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vect\PYZus{}1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{vect\PYZus{}148}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} scales the audio values}
+\PY{n}{scaled\PYZus{}train\PYZus{}audio}\PY{p}{,} \PY{n}{scaled\PYZus{}valid\PYZus{}audio}\PY{p}{,} \PY{n}{scaled\PYZus{}test\PYZus{}audio} \PY{o}{=} \PY{n}{min\PYZus{}max\PYZus{}scaler}\PY{p}{(}\PY{n}{audio\PYZus{}features}\PY{p}{,}\PY{n}{valid\PYZus{}audio\PYZus{}features}\PY{p}{,}\PY{n}{test\PYZus{}audio\PYZus{}features}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} selects the best number of features from the data and plots a graph}
+\PY{n}{best\PYZus{}train\PYZus{}audio}\PY{p}{,} \PY{n}{best\PYZus{}valid\PYZus{}audio}\PY{p}{,} \PY{n}{best\PYZus{}test\PYZus{}audio} \PY{o}{=} \PY{n}{select\PYZus{}features}\PY{p}{(}\PY{n}{DT}\PY{p}{,}\PY{n}{scaled\PYZus{}train\PYZus{}audio}\PY{p}{,}\PY{n}{scaled\PYZus{}valid\PYZus{}audio}\PY{p}{,}\PY{n}{scaled\PYZus{}test\PYZus{}audio}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} prints out the vector dimensions}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{For audio feature set:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Train dataset dimensions: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Validation dataset dimensions: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Test dataset dimensions: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{best\PYZus{}train\PYZus{}audio}\PY{o}{.}\PY{n}{shape}\PY{p}{,}\PY{n}{best\PYZus{}valid\PYZus{}audio}\PY{o}{.}\PY{n}{shape}\PY{p}{,}\PY{n}{best\PYZus{}test\PYZus{}audio}\PY{o}{.}\PY{n}{shape}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of features selected: 85
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+For audio feature set:
+Train dataset dimensions: (7678, 85)
+Validation dataset dimensions: (450, 85)
+Test dataset dimensions: (428, 85)
+    \end{Verbatim}
+
+    \hypertarget{block-3}{%
+\subsubsection{Block 3}\label{block-3}}
+
+User for fine tuning the hyper parameter of the classifiers
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} fine tunes the classifiers}
+
+\PY{n}{best\PYZus{}DT\PYZus{}classifier} \PY{o}{=} \PY{n}{train\PYZus{}GSCV\PYZus{}classifier}\PY{p}{(}\PY{n}{best\PYZus{}train\PYZus{}audio}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{DT}\PY{p}{,}\PY{n}{DT\PYZus{}parameters}\PY{p}{)}
+
+\PY{n}{best\PYZus{}MLP\PYZus{}classifier} \PY{o}{=} \PY{n}{train\PYZus{}GSCV\PYZus{}classifier}\PY{p}{(}\PY{n}{best\PYZus{}train\PYZus{}audio}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{MLP}\PY{p}{,}\PY{n}{MLP\PYZus{}parameters}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Fitting 5 folds for each of 2 candidates, totalling 10 fits
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[Parallel(n\_jobs=2)]: Using backend LokyBackend with 2 concurrent workers.
+[Parallel(n\_jobs=2)]: Done  10 out of  10 | elapsed:    5.3s finished
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Best classifier selected:
+DecisionTreeClassifier(ccp\_alpha=0.0, class\_weight=None, criterion='entropy',
+                       max\_depth=None, max\_features=None, max\_leaf\_nodes=None,
+                       min\_impurity\_decrease=0.0, min\_impurity\_split=None,
+                       min\_samples\_leaf=1, min\_samples\_split=2,
+                       min\_weight\_fraction\_leaf=0.0, presort='deprecated',
+                       random\_state=None, splitter='best')
+Fitting 5 folds for each of 6 candidates, totalling 30 fits
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[Parallel(n\_jobs=2)]: Using backend LokyBackend with 2 concurrent workers.
+[Parallel(n\_jobs=2)]: Done  30 out of  30 | elapsed: 18.9min finished
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Best classifier selected:
+MLPClassifier(activation='logistic', alpha=0.0001, batch\_size='auto',
+              beta\_1=0.9, beta\_2=0.999, early\_stopping=False, epsilon=1e-08,
+              hidden\_layer\_sizes=(100,), learning\_rate='constant',
+              learning\_rate\_init=0.001, max\_fun=15000, max\_iter=2000,
+              momentum=0.9, n\_iter\_no\_change=10, nesterovs\_momentum=True,
+              power\_t=0.5, random\_state=None, shuffle=True, solver='adam',
+              tol=0.0001, validation\_fraction=0.1, verbose=False,
+              warm\_start=False)
+    \end{Verbatim}
+
+    \hypertarget{block-4}{%
+\subsubsection{Block 4}\label{block-4}}
+
+Used for training the classifier, predicting values and calculating
+accuracy score for audio data
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} trains the classifiers on audio data}
+\PY{c+c1}{\PYZsh{} predicts class labels}
+\PY{c+c1}{\PYZsh{} calculates the accuracy score for predicted values}
+
+\PY{c+c1}{\PYZsh{} for dummy classifer}
+\PY{n}{audio\PYZus{}DC\PYZus{}classifier} \PY{o}{=} \PY{n}{train}\PY{p}{(}\PY{n}{best\PYZus{}train\PYZus{}audio}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{DC}\PY{p}{)}
+\PY{n}{predicted\PYZus{}audio\PYZus{}DC\PYZus{}labels} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{best\PYZus{}valid\PYZus{}audio}\PY{p}{,}\PY{n}{audio\PYZus{}DC\PYZus{}classifier}\PY{p}{)}
+\PY{n}{audio\PYZus{}DC\PYZus{}accuracy} \PY{o}{=} \PY{n}{evaluate}\PY{p}{(}\PY{n}{valid\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}audio\PYZus{}DC\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} for decision tree}
+\PY{n}{audio\PYZus{}DT\PYZus{}classifier} \PY{o}{=} \PY{n}{train}\PY{p}{(}\PY{n}{best\PYZus{}train\PYZus{}audio}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{best\PYZus{}DT\PYZus{}classifier}\PY{p}{)}
+\PY{n}{predicted\PYZus{}audio\PYZus{}DT\PYZus{}labels} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{best\PYZus{}valid\PYZus{}audio}\PY{p}{,}\PY{n}{audio\PYZus{}DT\PYZus{}classifier}\PY{p}{)}
+\PY{n}{audio\PYZus{}DT\PYZus{}accuracy} \PY{o}{=} \PY{n}{evaluate}\PY{p}{(}\PY{n}{valid\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}audio\PYZus{}DT\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} for multi layer perceptron}
+\PY{n}{audio\PYZus{}MLP\PYZus{}classifier} \PY{o}{=} \PY{n}{train}\PY{p}{(}\PY{n}{best\PYZus{}train\PYZus{}audio}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{best\PYZus{}MLP\PYZus{}classifier}\PY{p}{)}
+\PY{n}{predicted\PYZus{}audio\PYZus{}MLP\PYZus{}labels} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{best\PYZus{}valid\PYZus{}audio}\PY{p}{,}\PY{n}{audio\PYZus{}MLP\PYZus{}classifier}\PY{p}{)}
+\PY{n}{audio\PYZus{}MLP\PYZus{}accuracy} \PY{o}{=} \PY{n}{evaluate}\PY{p}{(}\PY{n}{valid\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}audio\PYZus{}MLP\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} prints out the accuracy}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{For audio feature set:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Accuracy of Zero\PYZhy{}R: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Accuracy of Decision Tree: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Accuracy of Multilayer Perceptron: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{audio\PYZus{}DC\PYZus{}accuracy}\PY{p}{,}\PY{n}{audio\PYZus{}DT\PYZus{}accuracy}\PY{p}{,}\PY{n}{audio\PYZus{}MLP\PYZus{}accuracy}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} plots a multi bar graph showing the counts for each type of genre for different classifiers}
+\PY{n}{plot\PYZus{}predicted\PYZus{}actual\PYZus{}labels}\PY{p}{(}\PY{n}{predicted\PYZus{}audio\PYZus{}DT\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}audio\PYZus{}MLP\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}audio\PYZus{}DC\PYZus{}labels}\PY{p}{,}\PY{n}{valid\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} plots a dataframe for accuracy score}
+\PY{n}{plot\PYZus{}predicted\PYZus{}accuracy}\PY{p}{(}\PY{n}{audio\PYZus{}DT\PYZus{}accuracy}\PY{p}{,}\PY{n}{audio\PYZus{}MLP\PYZus{}accuracy}\PY{p}{,}\PY{n}{audio\PYZus{}DC\PYZus{}accuracy}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+For audio feature set:
+Accuracy of Zero-R: 0.12666666666666668
+Accuracy of Decision Tree: 0.30444444444444446
+Accuracy of Multilayer Perceptron: 0.45555555555555555
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_12_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+             classifier  accuracy
+0          DecisionTree  0.304444
+1  MultilayerPerceptron  0.455556
+2                Zero\_R  0.126667
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{block-5}{%
+\subsubsection{Block 5}\label{block-5}}
+
+Converts tags to TFIDF vector, scales the values and prints out the
+dimensions
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} lyrical feature}
+
+\PY{c+c1}{\PYZsh{} converts the tags to TFIDF}
+\PY{n}{train\PYZus{}text\PYZus{}features}\PY{p}{,} \PY{n}{valid\PYZus{}text\PYZus{}features}\PY{p}{,} \PY{n}{test\PYZus{}text\PYZus{}features} \PY{o}{=} \PY{n}{text\PYZus{}features\PYZus{}tfidf}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{n}{valid\PYZus{}features}\PY{p}{,}\PY{n}{test\PYZus{}features}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tags}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} scales the values}
+\PY{n}{scaled\PYZus{}train\PYZus{}text}\PY{p}{,} \PY{n}{scaled\PYZus{}valid\PYZus{}text}\PY{p}{,} \PY{n}{scaled\PYZus{}test\PYZus{}text} \PY{o}{=} \PY{n}{min\PYZus{}max\PYZus{}scaler}\PY{p}{(}\PY{n}{train\PYZus{}text\PYZus{}features}\PY{p}{,}\PY{n}{valid\PYZus{}text\PYZus{}features}\PY{p}{,}\PY{n}{test\PYZus{}text\PYZus{}features}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} prints out the dimensions of the vectors}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{For lyrical(tags) feature set:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Train dataset dimensions: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Validation dataset dimensions: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Test dataset dimensions: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{scaled\PYZus{}train\PYZus{}text}\PY{o}{.}\PY{n}{shape}\PY{p}{,}\PY{n}{scaled\PYZus{}valid\PYZus{}text}\PY{o}{.}\PY{n}{shape}\PY{p}{,}\PY{n}{scaled\PYZus{}test\PYZus{}text}\PY{o}{.}\PY{n}{shape}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+For lyrical(tags) feature set:
+Train dataset dimensions: (7678, 4827)
+Validation dataset dimensions: (450, 4827)
+Test dataset dimensions: (428, 4827)
+    \end{Verbatim}
+
+    \hypertarget{block-6}{%
+\subsubsection{Block 6}\label{block-6}}
+
+Used for training the classifier, predicting values and calculating
+accuracy score for lyrical data
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} trains the classifiers on lyrical data}
+\PY{c+c1}{\PYZsh{} predicts class labels}
+\PY{c+c1}{\PYZsh{} calculates the accuracy score for predicted values}
+
+\PY{c+c1}{\PYZsh{} for dummy classifer}
+\PY{n}{text\PYZus{}DC\PYZus{}classifier} \PY{o}{=} \PY{n}{train}\PY{p}{(}\PY{n}{scaled\PYZus{}train\PYZus{}text}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{DC}\PY{p}{)}
+\PY{n}{predicted\PYZus{}text\PYZus{}DC\PYZus{}labels} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{scaled\PYZus{}valid\PYZus{}text}\PY{p}{,}\PY{n}{text\PYZus{}DC\PYZus{}classifier}\PY{p}{)}
+\PY{n}{text\PYZus{}DC\PYZus{}accuracy} \PY{o}{=} \PY{n}{evaluate}\PY{p}{(}\PY{n}{valid\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}text\PYZus{}DC\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} for decision tree}
+\PY{n}{text\PYZus{}DT\PYZus{}classifier} \PY{o}{=} \PY{n}{train}\PY{p}{(}\PY{n}{scaled\PYZus{}train\PYZus{}text}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{best\PYZus{}DT\PYZus{}classifier}\PY{p}{)}
+\PY{n}{predicted\PYZus{}text\PYZus{}DT\PYZus{}labels} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{scaled\PYZus{}valid\PYZus{}text}\PY{p}{,}\PY{n}{text\PYZus{}DT\PYZus{}classifier}\PY{p}{)}
+\PY{n}{text\PYZus{}DT\PYZus{}accuracy} \PY{o}{=} \PY{n}{evaluate}\PY{p}{(}\PY{n}{valid\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}text\PYZus{}DT\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} for multi layer perceptron}
+\PY{n}{text\PYZus{}MLP\PYZus{}classifier} \PY{o}{=} \PY{n}{train}\PY{p}{(}\PY{n}{scaled\PYZus{}train\PYZus{}text}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{best\PYZus{}MLP\PYZus{}classifier}\PY{p}{)}
+\PY{n}{predicted\PYZus{}text\PYZus{}MLP\PYZus{}labels} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{scaled\PYZus{}valid\PYZus{}text}\PY{p}{,}\PY{n}{text\PYZus{}MLP\PYZus{}classifier}\PY{p}{)}
+\PY{n}{text\PYZus{}MLP\PYZus{}accuracy} \PY{o}{=} \PY{n}{evaluate}\PY{p}{(}\PY{n}{valid\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}text\PYZus{}MLP\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} prints out the accuracy}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{For lyrical(tags) feature set:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Accuracy of Zero\PYZhy{}R: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Accuracy of Decision Tree: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Accuracy of Multilayer Perceptron: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{text\PYZus{}DC\PYZus{}accuracy}\PY{p}{,}\PY{n}{text\PYZus{}DT\PYZus{}accuracy}\PY{p}{,}\PY{n}{text\PYZus{}MLP\PYZus{}accuracy}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} plots a multi bar graph showing the counts for each type of genre for different classifiers}
+\PY{n}{plot\PYZus{}predicted\PYZus{}actual\PYZus{}labels}\PY{p}{(}\PY{n}{predicted\PYZus{}text\PYZus{}DT\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}text\PYZus{}MLP\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}text\PYZus{}DC\PYZus{}labels}\PY{p}{,}\PY{n}{valid\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} plots a dataframe for accuracy score}
+\PY{n}{plot\PYZus{}predicted\PYZus{}accuracy}\PY{p}{(}\PY{n}{text\PYZus{}DT\PYZus{}accuracy}\PY{p}{,}\PY{n}{text\PYZus{}MLP\PYZus{}accuracy}\PY{p}{,}\PY{n}{text\PYZus{}DC\PYZus{}accuracy}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+For lyrical(tags) feature set:
+Accuracy of Zero-R: 0.13111111111111112
+Accuracy of Decision Tree: 0.3844444444444444
+Accuracy of Multilayer Perceptron: 0.5155555555555555
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+             classifier  accuracy
+0          DecisionTree  0.384444
+1  MultilayerPerceptron  0.515556
+2                Zero\_R  0.131111
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{block-7}{%
+\subsubsection{Block 7}\label{block-7}}
+
+Converts title to TFIDF vector, selects the best number of metadata
+features scales the values and prints out the dimensions
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{30}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} metadata feature}
+
+\PY{c+c1}{\PYZsh{} converts the title to TFIDF}
+\PY{n}{train\PYZus{}title\PYZus{}features}\PY{p}{,} \PY{n}{valid\PYZus{}title\PYZus{}features}\PY{p}{,} \PY{n}{test\PYZus{}title\PYZus{}features} \PY{o}{=} \PY{n}{text\PYZus{}features\PYZus{}tfidf}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{n}{valid\PYZus{}features}\PY{p}{,}\PY{n}{test\PYZus{}features}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{title}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} splits the metadata from the dataframes}
+\PY{n}{train\PYZus{}audio\PYZus{}property\PYZus{}features} \PY{o}{=} \PY{n}{split\PYZus{}features}\PY{p}{(}\PY{n}{train\PYZus{}features}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{loudness}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{valid\PYZus{}audio\PYZus{}property\PYZus{}features} \PY{o}{=} \PY{n}{split\PYZus{}features}\PY{p}{(}\PY{n}{valid\PYZus{}features}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{loudness}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{test\PYZus{}audio\PYZus{}property\PYZus{}features} \PY{o}{=} \PY{n}{split\PYZus{}features}\PY{p}{(}\PY{n}{test\PYZus{}features}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{loudness}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{duration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} scales the metadata}
+\PY{n}{scaled\PYZus{}train\PYZus{}meta}\PY{p}{,} \PY{n}{scaled\PYZus{}valid\PYZus{}meta}\PY{p}{,} \PY{n}{scaled\PYZus{}test\PYZus{}meta} \PY{o}{=} \PY{n}{min\PYZus{}max\PYZus{}scaler}\PY{p}{(}\PY{n}{train\PYZus{}audio\PYZus{}property\PYZus{}features}\PY{p}{,}\PY{n}{valid\PYZus{}audio\PYZus{}property\PYZus{}features}\PY{p}{,}\PY{n}{test\PYZus{}audio\PYZus{}property\PYZus{}features}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} scales the title}
+\PY{n}{scaled\PYZus{}train\PYZus{}title}\PY{p}{,} \PY{n}{scaled\PYZus{}valid\PYZus{}title}\PY{p}{,} \PY{n}{scaled\PYZus{}test\PYZus{}title} \PY{o}{=} \PY{n}{min\PYZus{}max\PYZus{}scaler}\PY{p}{(}\PY{n}{train\PYZus{}title\PYZus{}features}\PY{p}{,}\PY{n}{valid\PYZus{}title\PYZus{}features}\PY{p}{,}\PY{n}{test\PYZus{}title\PYZus{}features}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} selects the best number of features from the data and plots a graph for metadata}
+\PY{n}{best\PYZus{}train\PYZus{}meta}\PY{p}{,} \PY{n}{best\PYZus{}valid\PYZus{}meta}\PY{p}{,} \PY{n}{best\PYZus{}test\PYZus{}meta} \PY{o}{=} \PY{n}{select\PYZus{}features}\PY{p}{(}\PY{n}{DT}\PY{p}{,}\PY{n}{scaled\PYZus{}train\PYZus{}meta}\PY{p}{,}\PY{n}{scaled\PYZus{}valid\PYZus{}meta}\PY{p}{,}\PY{n}{scaled\PYZus{}test\PYZus{}meta}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of features selected: 4
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{block-8}{%
+\subsubsection{Block 8}\label{block-8}}
+
+Combine metadata values and print the feature vector dimensions
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{31}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} concatenate values}
+\PY{n}{train\PYZus{}meta\PYZus{}features} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{(}\PY{n}{scaled\PYZus{}train\PYZus{}title}\PY{p}{,}\PY{n}{best\PYZus{}train\PYZus{}meta}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{valid\PYZus{}meta\PYZus{}features} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{(}\PY{n}{scaled\PYZus{}valid\PYZus{}title}\PY{p}{,}\PY{n}{best\PYZus{}valid\PYZus{}meta}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{test\PYZus{}meta\PYZus{}features} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{(}\PY{n}{scaled\PYZus{}test\PYZus{}title}\PY{p}{,}\PY{n}{best\PYZus{}test\PYZus{}meta}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} print feature vectors}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{For metadata feature set:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Train dataset dimensions: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Validation dataset dimensions: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Test dataset dimensions: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{train\PYZus{}meta\PYZus{}features}\PY{o}{.}\PY{n}{shape}\PY{p}{,}\PY{n}{valid\PYZus{}meta\PYZus{}features}\PY{o}{.}\PY{n}{shape}\PY{p}{,}\PY{n}{test\PYZus{}meta\PYZus{}features}\PY{o}{.}\PY{n}{shape}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+For metadata feature set:
+Train dataset dimensions: (7678, 6353)
+Validation dataset dimensions: (450, 6353)
+Test dataset dimensions: (428, 6353)
+    \end{Verbatim}
+
+    \hypertarget{block-9}{%
+\subsubsection{Block 9}\label{block-9}}
+
+Used for training the classifier, predicting values and calculating
+accuracy score for metadata
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} trains the classifiers on lyrical data}
+\PY{c+c1}{\PYZsh{} predicts class labels}
+\PY{c+c1}{\PYZsh{} calculates the accuracy score for predicted values}
+
+\PY{c+c1}{\PYZsh{} for dummy classifer}
+\PY{n}{meta\PYZus{}DC\PYZus{}classifier} \PY{o}{=} \PY{n}{train}\PY{p}{(}\PY{n}{train\PYZus{}meta\PYZus{}features}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{DC}\PY{p}{)}
+\PY{n}{predicted\PYZus{}meta\PYZus{}DC\PYZus{}labels} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{valid\PYZus{}meta\PYZus{}features}\PY{p}{,}\PY{n}{meta\PYZus{}DC\PYZus{}classifier}\PY{p}{)}
+\PY{n}{metadata\PYZus{}DC\PYZus{}accuracy} \PY{o}{=} \PY{n}{evaluate}\PY{p}{(}\PY{n}{valid\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}meta\PYZus{}DC\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} for decision tree}
+\PY{n}{meta\PYZus{}DT\PYZus{}classifier} \PY{o}{=} \PY{n}{train}\PY{p}{(}\PY{n}{train\PYZus{}meta\PYZus{}features}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{best\PYZus{}DT\PYZus{}classifier}\PY{p}{)}
+\PY{n}{predicted\PYZus{}meta\PYZus{}DT\PYZus{}labels} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{valid\PYZus{}meta\PYZus{}features}\PY{p}{,}\PY{n}{meta\PYZus{}DT\PYZus{}classifier}\PY{p}{)}
+\PY{n}{metadata\PYZus{}DT\PYZus{}accuracy} \PY{o}{=} \PY{n}{evaluate}\PY{p}{(}\PY{n}{valid\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}meta\PYZus{}DT\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} for multi layer perceptron}
+\PY{n}{meta\PYZus{}MLP\PYZus{}classifier} \PY{o}{=} \PY{n}{train}\PY{p}{(}\PY{n}{train\PYZus{}meta\PYZus{}features}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{best\PYZus{}MLP\PYZus{}classifier}\PY{p}{)}
+\PY{n}{predicted\PYZus{}meta\PYZus{}MLP\PYZus{}labels} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{valid\PYZus{}meta\PYZus{}features}\PY{p}{,}\PY{n}{meta\PYZus{}MLP\PYZus{}classifier}\PY{p}{)}
+\PY{n}{metadata\PYZus{}MLP\PYZus{}accuracy} \PY{o}{=} \PY{n}{evaluate}\PY{p}{(}\PY{n}{valid\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}meta\PYZus{}MLP\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} prints out the accuracy}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{For metadata feature set:}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Accuracy of Zero\PYZhy{}R: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Accuracy of Decision Tree: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{Accuracy of Multilayer Perceptron: }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{metadata\PYZus{}DC\PYZus{}accuracy}\PY{p}{,}\PY{n}{metadata\PYZus{}DT\PYZus{}accuracy}\PY{p}{,}\PY{n}{metadata\PYZus{}MLP\PYZus{}accuracy}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} plots a multi bar graph showing the counts for each type of genre for different classifiers}
+\PY{n}{plot\PYZus{}predicted\PYZus{}actual\PYZus{}labels}\PY{p}{(}\PY{n}{predicted\PYZus{}meta\PYZus{}DT\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}meta\PYZus{}MLP\PYZus{}labels}\PY{p}{,}\PY{n}{predicted\PYZus{}meta\PYZus{}DC\PYZus{}labels}\PY{p}{,}\PY{n}{valid\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} plots a dataframe for accuracy score}
+\PY{n}{plot\PYZus{}predicted\PYZus{}accuracy}\PY{p}{(}\PY{n}{metadata\PYZus{}DT\PYZus{}accuracy}\PY{p}{,}\PY{n}{metadata\PYZus{}MLP\PYZus{}accuracy}\PY{p}{,}\PY{n}{metadata\PYZus{}DC\PYZus{}accuracy}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+For metadata feature set:
+Accuracy of Zero-R: 0.14222222222222222
+Accuracy of Decision Tree: 0.23333333333333334
+Accuracy of Multilayer Perceptron: 0.3111111111111111
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_22_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{32}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+             classifier  accuracy
+0          DecisionTree  0.233333
+1  MultilayerPerceptron  0.311111
+2                Zero\_R  0.142222
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \hypertarget{block-10}{%
+\subsubsection{Block 10}\label{block-10}}
+
+Plots a bar graph showing the count for each type of genre
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} plots the graph}
+\PY{n}{plot\PYZus{}frequecy\PYZus{}labels}\PY{p}{(}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{label\PYZus{}encoder}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{block-11}{%
+\subsubsection{Block 11}\label{block-11}}
+
+Used for training the classifier, predicting values and calculating
+accuracy score for best feature set from test data
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} test with test\PYZus{}features using best data type and best classifier}
+\PY{c+c1}{\PYZsh{} We obtained text features as best type of features and MLP classifier as best classifier}
+\PY{n}{test\PYZus{}classifier} \PY{o}{=} \PY{n}{train}\PY{p}{(}\PY{n}{scaled\PYZus{}train\PYZus{}text}\PY{p}{,}\PY{n}{train\PYZus{}labels}\PY{p}{,}\PY{n}{text\PYZus{}MLP\PYZus{}classifier}\PY{p}{)}
+\PY{n}{predicted\PYZus{}test\PYZus{}labels} \PY{o}{=} \PY{n}{predict}\PY{p}{(}\PY{n}{scaled\PYZus{}test\PYZus{}text}\PY{p}{,}\PY{n}{test\PYZus{}classifier}\PY{p}{)}
+\PY{n}{converted\PYZus{}predicted\PYZus{}labels} \PY{o}{=} \PY{n}{label\PYZus{}encoder}\PY{o}{.}\PY{n}{inverse\PYZus{}transform}\PY{p}{(}\PY{n}{predicted\PYZus{}test\PYZus{}labels}\PY{p}{)}
+\PY{n}{test\PYZus{}labels} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{test\PYZus{}features}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{trackID}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{converted\PYZus{}predicted\PYZus{}labels}\PY{p}{,}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{genre}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} import to csv}
+\PY{n}{test\PYZus{}labels}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test\PYZus{}labels.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
